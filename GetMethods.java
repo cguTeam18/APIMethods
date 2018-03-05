@@ -36,17 +36,20 @@ public class GetMethods {
                 http.sendGetTimeline("TimelineId", "123456");
 	}
     
-    public void sendGetAllTimelines() throws Exception {
-        
-        String url = "https://gcu.ideagen-development.com/Timeline/GetTimelines";
-        
+    public HttpURLConnection setAuthToken(String url, String reqType) throws Exception {
         URL query = new URL(url);
         HttpURLConnection con = (HttpURLConnection) query.openConnection();
-        con.setRequestMethod("GET");
+        con.setRequestMethod(reqType);
         con.setRequestProperty("tenantId", tenantId);
         con.setRequestProperty("AuthToken", authToken);
+        return con;
+    }
+    
+    public void sendGetAllTimelines() throws Exception {
+        
+        HttpURLConnection con = setAuthToken("https://gcu.ideagen-development.com/Timeline/GetTimelines", "GET");
         int responseCode = con.getResponseCode();
-        System.out.println("Sending GET request to: " + url);
+        System.out.println("Sending GET request to: https://gcu.ideagen-development.com/Timeline/GetTimelines" );
         System.out.println("Response code: " + responseCode);
         
         BufferedReader in = new BufferedReader(
